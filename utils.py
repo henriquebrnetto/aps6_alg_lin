@@ -1,6 +1,8 @@
 import netCDF4, os, re
 import pandas as pd
 import numpy as np
+import autograd.numpy as np_
+from autograd import grad
 
 def nc4_to_df(file):
 
@@ -37,3 +39,12 @@ def create_totals_df(folder, pattern=None):
         data += [sum_var(url)]
 
     return pd.DataFrame(data, index=years, columns=['yield'])
+
+def erro( parametros ):
+    """
+    Funcao retirada da aula 6 notebook
+    """
+    a, x, y_medido = parametros
+    yhat = a * x
+    n = len(x)
+    return np_.sum((y_medido - yhat)**2)/ n
