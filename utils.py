@@ -40,11 +40,23 @@ def create_totals_df(folder, pattern=None):
 
     return pd.DataFrame(data, index=years, columns=['yield'])
 
+def transform_array(array, n):
+    new = array[:n]
+    first_val = new[0]
+    while True:
+        
+        array = np.roll(array, -1)
+        if array[:n][-1] == first_val:
+            break
+        new = np.vstack((new, array[:n]))
+
+    return new
+
 def erro( parametros ):
     """
     Funcao retirada da aula 6 notebook
     """
-    a, x, y_medido = parametros
-    yhat = a * x
+    w, b, x, y_medido = parametros
+    yhat = w.T @ x + b
     n = len(x)
     return np_.sum((y_medido - yhat)**2)/ n
